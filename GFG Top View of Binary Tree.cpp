@@ -17,17 +17,16 @@ class Solution {
         return ans;
         
         map<int, int> m;
-        queue<pair<Node*, pair<int, int>>> q;
-        q.push(make_pair(root, make_pair(0,0)));
+        queue<pair<Node*, int>> q;
+        q.push(make_pair(root, 0));
         
         while(!q.empty())
         {
-            pair<Node*, pair<int,int>> temp = q.front();
+            pair<Node*, int> temp = q.front();
             q.pop();
             
             Node* fNod = temp.first;
-            int hd = temp.second.first;
-            int lvl = temp.second.second;
+            int hd = temp.second;
             
             if(!m[hd])
             {
@@ -35,10 +34,10 @@ class Solution {
             }
             
             if(fNod -> left)
-            q.push(make_pair(fNod -> left,make_pair(hd-1,lvl+1)));
+            q.push(make_pair(fNod -> left,hd-1));
             
             if(fNod -> right)
-            q.push(make_pair(fNod -> right, make_pair(hd+1,lvl+1)));
+            q.push(make_pair(fNod -> right, hd+1));
             
         }
         
