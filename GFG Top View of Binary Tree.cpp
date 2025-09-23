@@ -28,7 +28,7 @@ class Solution {
             Node* fNod = temp.first;
             int hd = temp.second;
             
-            if(!m[hd])
+            if(m.find(hd) == m.end())
             {
                 m[hd] = fNod->data;
             }
