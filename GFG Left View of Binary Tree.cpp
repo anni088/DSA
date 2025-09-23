@@ -34,7 +34,7 @@ class Solution {
             Node* fNode = temp.first;
             int lvl = temp.second;
             
-            if(!m[lvl])
+            if(m.find(lvl) == m.end())
             m[lvl] = fNode -> data;
             
             if(fNode -> left)
