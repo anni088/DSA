@@ -1,0 +1,57 @@
+#include <algorithm>
+vector<int> findFreeIntervals(vector<vector<int>> &schedules) {
+    /*	
+		'schedules': vector of 'N' vectors, where schedules[i] 
+					 is a vector of intergers in which every two 
+					 numbers shows an interval in which Problem Setter 
+					 with id 'i' works.
+	*/
+
+	// Write your code here
+	const int DAY_END = 100000000;
+
+    vector<pair<int, int>> busy;
+
+    // Collect all busy intervals
+    for (auto &schedule : schedules) {
+        for (int i = 0; i < schedule.size(); i += 2) {
+            busy.push_back({schedule[i], schedule[i + 1]});
+        }
+    }
+
+    // Sort by start time
+    sort(busy.begin(), busy.end());
+
+    // Merge busy intervals
+    vector<pair<int, int>> merged;
+
+    for (auto &interval : busy) {
+        if (merged.empty() ||
+            interval.first > merged.back().second + 1) {
+            merged.push_back(interval);
+        } else {
+            merged.back().second =
+                max(merged.back().second, interval.second);
+        }
+    }
+
+    vector<int> ans;
+    int current = 0;
+
+    // Find free intervals
+    for (auto &interval : merged) {
+        if (current < interval.first) {
+            ans.push_back(current);
+            ans.push_back(interval.first - 1);
+        }
+        current = interval.second + 1;
+    }
+
+    // Free interval after last busy interval
+    if (current <= DAY_END) {
+        ans.push_back(current);
+        ans.push_back(DAY_END);
+    }
+
+    return ans;
+}
